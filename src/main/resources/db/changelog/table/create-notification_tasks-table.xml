@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.9.xsd">
+
+    <changeSet id="create-notification_tasks-table.xml" author="AABelimov">
+        <preConditions>
+            <not>
+                <tableExists tableName="notification_tasks"/>
+            </not>
+        </preConditions>
+
+        <createTable tableName="notification_tasks">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="text" type="VARCHAR(4096)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_time" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <createIndex tableName="notification_tasks" indexName="idx_notification_tasks_date_time">
+            <column name="date_time"/>
+        </createIndex>
+
+    </changeSet>
+
+</databaseChangeLog>
