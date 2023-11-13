@@ -13,10 +13,13 @@
         </preConditions>
 
         <createTable tableName="notification_tasks">
-            <column name="id" type="BIGINT">
+            <column name="id" type="BIGINT" autoIncrement="true">
                 <constraints primaryKey="true"/>
             </column>
             <column name="text" type="VARCHAR(4096)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="chat_id" type="BIGINT">
                 <constraints nullable="false"/>
             </column>
             <column name="date_time" type="DATETIME">
