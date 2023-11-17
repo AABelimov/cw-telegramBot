@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pro.sky.telegrambot.repository.NotificationTaskRepository;
 import pro.sky.telegrambot.service.TelegramBotService;
+import pro.sky.telegrambot.service.UserService;
 
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
@@ -15,10 +16,12 @@ public class NotificationTaskNotifier {
 
     private final NotificationTaskRepository notificationTaskRepository;
     private final TelegramBotService telegramBotService;
+    private final UserService userService;
 
-    public NotificationTaskNotifier(NotificationTaskRepository notificationTaskRepository, TelegramBotService telegramBotService) {
+    public NotificationTaskNotifier(NotificationTaskRepository notificationTaskRepository, TelegramBotService telegramBotService, UserService userService) {
         this.notificationTaskRepository = notificationTaskRepository;
         this.telegramBotService = telegramBotService;
+        this.userService = userService;
     }
 
     @Scheduled(timeUnit = TimeUnit.MINUTES, fixedDelay = 1)
@@ -26,7 +29,8 @@ public class NotificationTaskNotifier {
     public void task() {
         notificationTaskRepository.findByDateTime(LocalDateTime.now().truncatedTo(ChronoUnit.MINUTES))
                 .forEach(e -> {
-                    telegramBotService.sendMessage(e.getChatId(), e.getText());
+                    telegramBotService.sendMessage(e.getUser().getId(), e.getText());
+                    //userService.decrementTaskCount(e.getUser().getId());
                 });
     }
 }

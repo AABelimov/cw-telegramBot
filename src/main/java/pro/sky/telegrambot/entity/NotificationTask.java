@@ -14,8 +14,9 @@ public class NotificationTask {
     @Column(name = "text", length = 4096, nullable = false)
     private String text;
 
-    @Column(name = "chat_id", nullable = false)
-    private long chatId;
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user;
 
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
@@ -36,12 +37,12 @@ public class NotificationTask {
         this.text = text;
     }
 
-    public long getChatId() {
-        return chatId;
+    public User getUser() {
+        return user;
     }
 
-    public void setChatId(long chatId) {
-        this.chatId = chatId;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public LocalDateTime getDateTime() {
