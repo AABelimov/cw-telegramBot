@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.handler.CommandsHandler;
 import pro.sky.telegrambot.handler.TextHandler;
 import pro.sky.telegrambot.service.TelegramBotService;
-import pro.sky.telegrambot.service.UserService;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -21,7 +20,10 @@ public class TelegramBotUpdatesListener implements UpdatesListener {
     private final CommandsHandler commandsHandler;
     private final TelegramBotService telegramBotService;
 
-    public TelegramBotUpdatesListener(TelegramBot telegramBot, TextHandler textHandler, CommandsHandler commandsHandler, TelegramBotService telegramBotService) {
+    public TelegramBotUpdatesListener(TelegramBot telegramBot,
+                                      TextHandler textHandler,
+                                      CommandsHandler commandsHandler,
+                                      TelegramBotService telegramBotService) {
         this.telegramBot = telegramBot;
         this.textHandler = textHandler;
         this.commandsHandler = commandsHandler;

@@ -21,6 +21,9 @@ public class NotificationTask {
     @Column(name = "date_time", nullable = false)
     private LocalDateTime dateTime;
 
+    @Column(name = "delivered", nullable = false)
+    private boolean delivered;
+
     public Long getId() {
         return id;
     }
@@ -51,5 +54,13 @@ public class NotificationTask {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public boolean isDelivered() {
+        return delivered;
+    }
+
+    public void setDelivered(boolean delivered) {
+        this.delivered = delivered;
     }
 }

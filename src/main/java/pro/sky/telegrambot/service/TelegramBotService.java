@@ -1,13 +1,15 @@
 package pro.sky.telegrambot.service;
 
 import com.pengrad.telegrambot.TelegramBot;
-import com.pengrad.telegrambot.model.Message;
 import com.pengrad.telegrambot.model.request.ParseMode;
 import com.pengrad.telegrambot.request.SendMessage;
 import com.pengrad.telegrambot.response.SendResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import pro.sky.telegrambot.enums.StatesEnum;
+
+import static pro.sky.telegrambot.enums.CommandsEnum.*;
 
 @Service
 public class TelegramBotService {
@@ -37,27 +39,27 @@ public class TelegramBotService {
     }
 
     public void start(Long userId) {
-        if (userService.getState(userId).equals("NEW_USER")) {
-            userService.setState(userId, "FREE_SWIMMING");
+        if (userService.getState(userId).equals(StatesEnum.NEW_USER.name())) {
             info(userId);
         } else {
             sendMessage(userId, "Введите сообщение в формате: 01.01.2022 20:00 Сделать домашнюю работу");
         }
+        userService.setState(userId, StatesEnum.FREE_SWIMMING.name());
     }
 
     public void info(long chatId) {
         sendMessage(chatId,
                 "Это учебный бот для работы с напоминаниями.\n" +
-                        "Чтобы посмотреть список всех доступных команд, введите команду /help\n\n" +
+                        "Чтобы посмотреть список всех доступных команд, введите команду" + HELP + "\n\n" +
                         "Для создания напоминания, введите сообщение в формате:\n01.01.2022 20:00 Сделать домашнюю работу");
     }
 
     public void help(Long chatId) {
-        sendMessage(chatId,
-                "Список доступных команд:\n" +
-                        "1. /start - начало работы\n" +
-                        "2. /info - увидеть информацию о боте\n" +
-                        "3. /help - посмотреть список всех доступных команд\n" +
-                        "4. /show_notifications - посмотреть свои напоминания\n");
+        sendMessage(chatId, String.format("Список доступных команд:\n" +
+                        "1. %s - начало работы\n" +
+                        "2. %s - увидеть информацию о боте\n" +
+                        "3. %s - посмотреть список всех доступных команд\n" +
+                        "4. %s - посмотреть свои напоминания\n", START, INFO, HELP, SHOW_NOTIFICATIONS)
+                );
     }
 }

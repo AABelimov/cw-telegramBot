@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import pro.sky.telegrambot.entity.User;
+import pro.sky.telegrambot.enums.StatesEnum;
 import pro.sky.telegrambot.repository.UserRepository;
 
 @Service
@@ -23,7 +24,7 @@ public class UserService {
     public User getUser(Long userId) {
         User user = userRepository.findById(userId).orElse(null);
         if (user == null) {
-            user = createUser(new User(userId, "NEW_USER", 0, 0));
+            user = createUser(new User(userId, StatesEnum.NEW_USER.name(), 0, 0));
         }
         return user;
     }
@@ -39,18 +40,6 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public void incrementTaskCount(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        user.setTaskCount(user.getTaskCount() + 1);
-        userRepository.save(user);
-    }
-
-    public void decrementTaskCount(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow();
-        user.setTaskCount(user.getTaskCount() - 1);
-        userRepository.save(user);
-    }
-
     public void setTaskCount(Long userId, int count) {
         User user = userRepository.findById(userId).orElseThrow();
 
@@ -58,10 +47,19 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public int getTaskCount(Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        return user.getTaskCount();
+    }
+
     public void setCurrentPage(Long userId, int page) {
         User user = userRepository.findById(userId).orElseThrow();
 
         user.setCurrentPage(page);
         userRepository.save(user);
+    }
+
+    public int getCurrentPage(Long userId) {
+        return userRepository.findById(userId).orElseThrow().getCurrentPage();
     }
 }

@@ -11,5 +11,7 @@ public interface NotificationTaskRepository extends JpaRepository<NotificationTa
 
     List<NotificationTask> findByDateTime(LocalDateTime localDateTime);
 
-    List<NotificationTask> findByUserId(Long userId, PageRequest pageRequest);
+    List<NotificationTask> findByUserIdAndDeliveredOrderByDateTime(Long userId, boolean delivered, PageRequest pageRequest);
+
+    int countByDeliveredAndUserId(boolean delivered, Long userId);
 }

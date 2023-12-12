@@ -25,6 +25,9 @@
             <column name="date_time" type="DATETIME">
                 <constraints nullable="false"/>
             </column>
+            <column name="delivered" type="BOOLEAN">
+                <constraints nullable="false"/>
+            </column>
         </createTable>
 
         <createIndex tableName="notification_tasks" indexName="idx_notification_tasks_date_time">
